@@ -29,11 +29,20 @@ export default function Web() {
             <h1 className="mb-4 max-w-2xl text-4xl leading-none font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white">
               Next.js Enterprise Boilerplate
             </h1>
-            <p className="mb-6 max-w-2xl font-light text-gray-500 md:text-lg lg:mb-8 lg:text-xl dark:text-gray-400">
+            <p className="mb-6 max-w-2xl font-light text-gray-500 md:text-lg lg:mb-8 lg:text-xl dark:text-gray-4-cols-3">
               Jumpstart your enterprise project with our feature-packed, high-performance Next.js boilerplate!
               Experience rapid UI development, AI-powered code reviews, and an extensive suite of tools for a smooth and
               enjoyable development process.
             </p>
+            <div className="relative inline-block mb-8">
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg blur opacity-25 animate-pulse"></div>
+              <button className="relative px-6 py-3 text-sm font-medium text-white transition-all duration-300 bg-gray-800 hover:bg-gray-700 rounded-lg shadow-lg">
+                Launch AI Operating System Dashboard
+              </button>
+            </div>
+            <Button href="/dashboard" className="mr-3">
+              Open AI Operating System Dashboard
+            </Button>
             <Button href="https://github.com/Blazity/next-enterprise" className="mr-3">
               Get started
             </Button>
