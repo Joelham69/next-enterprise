@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import DashboardCard from "./DashboardCard"
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 
 const GRID_LAYOUTS = {
   default: [
@@ -38,7 +39,7 @@ export default function DashboardGrid({
   onToggle: (id: string) => void,
   layout: string
 }) {
-  const [draggedWidget, setDraggedWidget] = useState<string | null>(null)
+  const [gridItems, setGridItems] = useState(widgets)
 
   const getGridTemplateColumns = () => {
     switch(layout) {
@@ -69,28 +70,60 @@ export default function DashboardGrid({
   }
 
   const gridTemplate = `${getGridTemplateRows()} / ${getGridTemplateColumns()}`
-  
+
+  const onDragEnd = (result: any) => {
+    if (!result.destination) return
+
+    const items = Array.from(gridItems)
+    const [reorderedItem] = items.splice(result.source.index, 1)
+    items.splice(result.destination.index, 0, reorderedItem)
+
+    setGridItems(items)
+  }
+
+  const orderedWidgets = gridItems.map(widget => widget.id)
+
   return (
-    <div 
-      className="grid gap-4"
-      style={{ gridTemplate }}
-    >
-      {GRID_LAYOUTS[layout as keyof typeof GRID_LAYOUTS].map((row, rowIndex) => (
-        row.map((widgetId) => {
-          const widget = widgets.find(w => w.id === widgetId)
-          if (!widget) return null
-          
-          return (
-            <DashboardCard 
-              key={widgetId} 
-              id={widgetId} 
-              type={widget.type} 
-              collapsed={widget.collapsed}
-              onToggle={onToggle}
-            />
-          )
-        })
-      ))}
-    </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="dashboard" direction="horizontal">
+        {(provided) => (
+          <div 
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className="grid gap-4"
+            style={{ gridTemplate }}
+          >
+            {GRID_LAYOUTS[layout as keyof typeof GRID_LAYOUTS].map((row, rowIndex) => (
+              row.map((widgetId, colIndex) => {
+                const widget = widgets.find(w => w.id === widgetId)
+                if (!widget) return null
+                
+                const index = orderedWidgets.indexOf(widgetId)
+                
+                return (
+                  <Draggable key={widgetId} draggableId={widgetId} index={index}>
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <DashboardCard 
+                          id={widgetId} 
+                          type={widget.type} 
+                          collapsed={widget.collapsed}
+                          onToggle={onToggle}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                )
+              })
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   )
 }

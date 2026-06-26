@@ -1,9 +1,10 @@
 import "styles/tailwind.css"
+import "./globals.css"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <html lang="en" className="h-full">
+      <body className="h-full antialiased">
         {children}
       </body>
     </html>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import UserMenu from "components/ui/UserMenu"
 
 export default function DashboardHeader({ onLayoutChange }: { onLayoutChange: (layout: string) => void }) {
   const [activeLayout, setActiveLayout] = useState("default")
@@ -44,9 +45,7 @@ export default function DashboardHeader({ onLayoutChange }: { onLayoutChange: (l
             ))}
           </div>
           
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">AI</div>
-          </div>
+          <UserMenu />
         </div>
       </div>
     </header>

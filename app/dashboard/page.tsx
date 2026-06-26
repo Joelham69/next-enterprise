@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import DashboardLayout from "components/dashboard/DashboardLayout"
+import DashboardShell from "components/dashboard/DashboardShell"
 
 export const metadata: Metadata = {
   title: "AI Operating System - Mission Control",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function DashboardPage() {
-  return <DashboardLayout />
+  return <DashboardShell />
 }
